@@ -59,39 +59,7 @@
       <bpmn:messageEventDefinition messageRef="Message_1bee4md" />
     </bpmn:startEvent>
     <bpmn:dataStoreReference id="DataStoreReference_0elmzu3" name="CRM" />
-    <bpmn:serviceTask id="Task_02ejw45" name="Create order" camunda:modelerTemplate="digibp.connector.http.body" camunda:expression="${true}">
-      <bpmn:extensionElements>
-        <camunda:connector inout="">
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:script scriptFormat="JavaScript">var header = new java.util.HashMap();
-header.put("Content-Type","application/json");
-header;</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
-  "address": customerAddress,
-  "businessKey": execution.getBusinessKey(),
-  "email": customerEmail,
-  "firstName": customerFirstName,
-  "lastName": customerLastName,
-  "pizzaCrust": pizzaCrust,
-  "pizzaPrice": pizzaPrice,
-  "pizzaSauce": pizzaSauce,
-  "pizzaSize": pizzaSize,
-  "pizzaTopping": pizzaTopping,
-  "pizzaType": pizzaType
-});</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url">http://localhost:8081/api/pizza/v1/order</camunda:inputParameter>
-            <camunda:outputParameter name="processVariableResponse">
-              <camunda:script scriptFormat="JavaScript">response;</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
+    <bpmn:serviceTask id="Task_02ejw45" name="Create order" camunda:expression="${true}">
       <bpmn:incoming>SequenceFlow_1v9loiy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kol26o</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0qkwnbg">
@@ -232,30 +200,7 @@ header;</camunda:script>
         <bpmn:targetRef>Property_052chmx</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Task_15r08ui" name="Update payment" camunda:modelerTemplate="digibp.connector.http.body" camunda:expression="${true}">
-      <bpmn:extensionElements>
-        <camunda:connector inout="">
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:script scriptFormat="JavaScript">var header = new java.util.HashMap();
-header.put("Content-Type","application/json");
-header;</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
-  "payment": pizzaPayment,
-  "receipt": receipt
-});</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url">http://localhost:8081/api/pizza/v1/payment/${execution.getBusinessKey()}</camunda:inputParameter>
-            <camunda:outputParameter name="processVariableResponse">
-              <camunda:script scriptFormat="JavaScript">response;</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
+    <bpmn:serviceTask id="Task_15r08ui" name="Update payment" camunda:expression="${true}">
       <bpmn:incoming>SequenceFlow_1nd7ewf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0386v5v</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0kw9anx">
@@ -272,35 +217,7 @@ header;</camunda:script>
     <bpmn:sequenceFlow id="SequenceFlow_06gxo8i" name="No" sourceRef="ExclusiveGateway_0d639o8" targetRef="EndEvent_0t8xnxn">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${receipt == false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sendTask id="Task_0ijrsu7" name="Send receipt" camunda:modelerTemplate="digibp.connector.http.body" camunda:expression="${true}">
-      <bpmn:extensionElements>
-        <camunda:connector inout="">
-          <camunda:inputOutput>
-            <camunda:inputParameter name="method">POST</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:script scriptFormat="JavaScript">var header = new java.util.HashMap();
-header.put("Content-Type","application/json");
-header;</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">out = JSON.stringify({
-  "pizzaType": pizzaType,
-  "pizzaPayment": pizzaPayment,
-  "customerFirstName": customerFirstName,
-  "customerLastName": customerLastName,
-  "toEmail": customerEmail,
-  "fromName": "Food Inc.",
-  "fromEmail": "xyz@fhnw.ch"
-});</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url">https://hooks.zapier.com/hooks/catch/2050261/fzoaaq/</camunda:inputParameter>
-            <camunda:outputParameter name="processVariableResponse">
-              <camunda:script scriptFormat="JavaScript">response;</camunda:script>
-            </camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>http-connector</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
+    <bpmn:sendTask id="Task_0ijrsu7" name="Send receipt" camunda:expression="${true}">
       <bpmn:incoming>SequenceFlow_09a3cx6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pgygh0</bpmn:outgoing>
     </bpmn:sendTask>
